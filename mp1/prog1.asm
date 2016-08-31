@@ -99,8 +99,96 @@ GET_NEXT
 PRINT_HIST
 
 ; you will need to insert your code to print the histogram here
+	
+	AND R6, R6, #0 ;clear R6
+	ADD R6, R6, #15	
+	ADD R6, R6, #15	
+	ADD R6, R6, #15	
+	ADD R6, R6, #15	
+	ADD R6, R6, #4 ; store @ into R6
 
+	AND R3, R3, #0 ;clear R3
+	AND R5, R5, #0 ;clear R5
+	AND R1, R1, #0; clear R1
+	LD R5, NUM_BINS ;load 27 for counter
 
+	LD R1, HIST_ADDR ;load histogram data address
+	
+LOOP
+	ADD R0, R6, #0;load character into R0
+	OUT
+	AND R0, R0, #0; clear
+	LD R0, SPACE ; load space into R0
+	OUT
+	AND R0, R0, #0; clear
+	LDR R2, R1, #0; load histogram data into R2 
+	 
+
+	AND R7, R7, #0	;clear R7
+	AND R4, R4, #0	;where the bits will be stored from R2
+	AND R0, R0, #0	
+	ADD R3, R3, #4  ;character counter
+	
+
+Q	BRz PRINT2
+	AND R7, R7, #0	;clear
+	ADD R7, R7, #4	;bit counter
+START	ADD R2, R2, #0	;set cc	
+	BRn ADD1
+	BRzp ADD0
+
+ADD1	ADD R4, R4, R4 	;left shift
+	ADD R4, R4, #1	;add 1
+	BRnzp SHIFT	
+
+ADD0 	ADD R4, R4, R4	;left shift	
+	BRnzp SHIFT
+
+SHIFT 	ADD R2, R2, R2 ;shift R2 to the left
+	ADD R7, R7, #-1 ;subtract from bit counter
+	BRp START 
+	BRnz CHECK 
+
+CHECK	ADD R4, R4, #-10 ;check if it's digit or letter
+	BRn DIGIT
+	BRzp LETTER
+
+DIGIT	ADD R4, R4, #10 ;add to find ascii 
+     	ADD R4, R4, #10 	
+	ADD R4, R4, #10
+	ADD R4, R4, #10
+	ADD R4, R4, #10
+	ADD R4, R4, #8
+	BRnzp PRINT1
+
+LETTER	ADD R4, R4, #10 ;add to find ascii
+	ADD R4, R4, #10
+	ADD R4, R4, #10
+	ADD R4, R4, #10
+	ADD R4, R4, #10
+	ADD R4, R4, #10
+	ADD R4, R4, #5
+	BRnzp PRINT1
+
+PRINT1 	AND R0, R0, #0 ; clear
+	ADD R0, R4, #0 ;load to R0 to TRAP out
+	OUT
+	AND R4, R4, #0 ;Clear bit holder 
+	ADD R3, R3, #-1 ;subtract from character counter
+	BRnzp Q
+	
+PRINT2	AND R0, R0, #0; clear
+	LD R0, NEWLINE ;load new line into R0
+	OUT
+	AND R0, R0, #0; clear
+	ADD R6, R6, #1; increase character
+	ADD R1, R1, #1; next memory location 
+	ADD R5, R5, #-1; subtract from 27 counter
+	BRp LOOP ; do this 27 times 
+	
+
+	
+	
 
 DONE	HALT			; done
 
@@ -112,7 +200,9 @@ AT_MIN_Z	.FILL xFFE6	; the difference between ASCII '@' and 'Z'
 AT_MIN_BQ	.FILL xFFE0	; the difference between ASCII '@' and '`'
 HIST_ADDR	.FILL x3F00     ; histogram starting address
 STR_START	.FILL x4000	; string starting address
-
+SPACE		.FILL #32	; space
+NEWLINE		.FILL xA	; newline 
+CHAR		.FILL #64	; @
 ; for testing, you can use the lines below to include the string in this
 ; program...
 ; STR_START	.FILL STRING	; string starting address
