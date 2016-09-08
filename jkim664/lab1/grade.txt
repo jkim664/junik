@@ -1,0 +1,19 @@
+Compilation Results:
+********************
+STARTING PASS 1
+0 errors found in first pass.
+STARTING PASS 2
+0 errors found in second pass.
+
+Test Input x5F3A: 5F3A should be printed below for full points
+Set R3 to x5F3A.
+5F3A
+
+Grade:
+******
+Functionality: 10
+Style: 
+Comments: 
+Formatting: 
+Intro paragraph: 
+Total: 10
