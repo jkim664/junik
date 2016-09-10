@@ -68,6 +68,8 @@ PRINT_HEX
 	AND R4, R4, #0	;where the bits will be stored from R3
 	AND R0, R0, #0	
 	ADD R1, R1, #4  ;character counter
+	AND R5, R5, #0
+	ADD R5, R5, R3 ; put the calculated value into R5 
 	
 
 Q	BRz END 
@@ -193,25 +195,31 @@ MUL
 ;your code goes here
 	JSR POP
 	ADD R0, R0, #0 ; set cc
-	BRz ZEROM ; if multiplicand is zero, then the number is zero
+	BRz ZEROM2 ; if multiplicand is zero, then the number is zero
 	ADD R5, R5, #0 ; set cc
 	BRp INVALID 	
-	ADD R1, R1, R0 ; store into R1
+	ADD R1, R1, R0 ; store the first value into R1
 	AND R0, R0, #0
 	JSR POP
 	ADD R0, R0, #0 ; set cc
-	BRz ZEROM
+	BRz ZEROM1 
 	ADD R5, R5, #0 ; set cc
 	BRp INVALID
-	ADD R2, R2, R0 ; store into R2
+	ADD R2, R2, R0 ; store the second value into R2
 	AND R3, R3, #0
 MLOOP	ADD R3, R3, R1 ; start multiplication
 	ADD R2, R2, #-1 ; decrement multiplication counter 
 	BRp MLOOP
 	AND R0, R0, #0 
 	ADD R0, R0, R3 ; put R3 into R0 for push
-ZEROM	JSR PUSH
+ZEROM1	JSR PUSH
 	BRnzp START
+
+ZEROM2	JSR POP
+	AND R0, R0, #0
+	JSR PUSH
+	BRnzp START	
+	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;input R3, R4
 ;out R0
@@ -222,14 +230,12 @@ DIV
 	BRz INVALID ; invalid if denominator is 0
 	ADD R5, R5, #0 ; set cc
 	BRp INVALID
-	ADD R1, R1, R0 ; store into R1
+	ADD R1, R1, R0 ; store the first value into R1
 	AND R0, R0, #0
 	JSR POP
-	ADD R0, R0, #0 ; set cc
-	BRz ZEROD ; the number will be 0 if numerator is 0
 	ADD R5, R5, #0 ; set cc
 	BRp INVALID
-	ADD R2, R2, R0
+	ADD R2, R2, R0 ; store the second value into R2
 	NOT R1, R1
 	ADD R1, R1, #1 ; 2's complement of R1
 	AND R3, R3, #0
@@ -252,14 +258,14 @@ EXP
 	BRz ZEROE2 ; if exponent is 0, then number is 1 
 	ADD R5, R5, #0 ; set cc
 	BRp INVALID
-	ADD R1, R1, R0 ; store into R1
+	ADD R1, R1, R0 ; store first value into R1
 	AND R0, R0, #0
 	JSR POP
 	ADD R0, R0, #0 ; set cc
 	BRz ZEROE1 ; if base is 0, the number is 0
 	ADD R5, R5, #0 ; set cc
 	BRp INVALID
-	ADD R2, R2, R0 ; store into R2
+	ADD R2, R2, R0 ; store second value into R2
 	AND R3, R3, #0 ; clear 
 	AND R4, R4, #0 ; clear
 	ADD R3, R2, #0 ; value of base into R3
