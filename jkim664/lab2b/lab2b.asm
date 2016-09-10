@@ -16,8 +16,7 @@
 
 ASCII_0 .FILL x30
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;input R3, R4
-;out R0-quotient, R1-remainder
+
 DIV	
 	ADD R3, R3, R1 ; subtract 10 
 	BRn REMAINDER ; if negative, go to REMAINDER
