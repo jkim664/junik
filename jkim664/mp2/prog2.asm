@@ -245,7 +245,7 @@ DLOOP	ADD R2, R1, R2 ; start division
 	BRnzp DLOOP ; if negative, quotient found
 DBREAK	AND R0, R0, #0
 	ADD R0, R0, R3
-ZEROD	JSR PUSH
+	JSR PUSH
 	BRnzp START 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
