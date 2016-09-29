@@ -75,10 +75,10 @@ set_seed (const char seed_str[])
  *               The values at the pointers should also be set to the solution numbers.
  *               The guess_number should be initialized to 1 (to indicate the first guess)
  * INPUTS: none
- * OUTPUTS: *one -- the first solution value (between 1 and 8)
- *          *two -- the second solution value (between 1 and 8)
- *          *three -- the third solution value (between 1 and 8)
- *          *four -- the fourth solution value (between 1 and 8)
+ * OUTPUTS: *one -- the first solution value (between 0 and 7)
+ *          *two -- the second solution value (between 0 and 7)
+ *          *three -- the third solution value (between 0 and 7)
+ *          *four -- the fourth solution value (between 0 and 7)
  * RETURN VALUE: none
  * SIDE EFFECTS: records the solution in the static solution variables for use by make_guess, set guess_number
  */
@@ -94,7 +94,7 @@ start_game (int* one, int* two, int* three, int* four)
  *               The guess is stored in the string guess_str. 
  *               The function must calculate the number of perfect and misplaced matches
  *               for a guess, given the solution recorded earlier by start_game
- *               The guess must be valid (contain only 4 integers, within the range 1-8). If it is valid
+ *               The guess must be valid (contain only 4 integers, within the range 0-7). If it is valid
  *               the number of correct and incorrect matches should be printed, using the following format
  *               "With guess %d, you got %d perfect matches and %d misplaced matches.\n"
  *               If valid, the guess_number should be incremented.
@@ -102,12 +102,12 @@ start_game (int* one, int* two, int* three, int* four)
  *               For an invalid guess, the guess_number is not incremented.
  * INPUTS: guess_str -- a string consisting of the guess typed by the user
  * OUTPUTS: the following are only valid if the function returns 1 (A valid guess)
- *          *one -- the first guess value (between 1 and 8)
- *          *two -- the second guess value (between 1 and 8)
- *          *three -- the third guess value (between 1 and 8)
- *          *four -- the fourth color value (between 1 and 8)
+ *          *one -- the first guess value (between 0 and 7)
+ *          *two -- the second guess value (between 0 and 7)
+ *          *three -- the third guess value (between 0 and 7)
+ *          *four -- the fourth color value (between 0 and 7)
  * RETURN VALUE: 1 if the guess string is valid (the guess contains exactly four
- *               numbers between 1 and 8), or 0 if it is invalid
+ *               numbers between 0 and 7), or 0 if it is invalid
  * SIDE EFFECTS: prints (using printf) the number of matches found and increments guess_number(valid guess) 
  *               or an error message (invalid guess)
  *               (NOTE: the output format MUST MATCH EXACTLY, check the wiki writeup)
@@ -123,7 +123,7 @@ make_guess (const char guess_str[], int* one, int* two,
 //  will read four integers from guess_str into the integers and read anything else present into post
 //  The return value of sscanf indicates the number of items sucessfully read from the string.
 //  You should check that exactly four integers were sucessfully read.
-//  You should then check if the 4 integers are between 1-8. If so, it is a valid guess
+//  You should then check if the 4 integers are between 0-7. If so, it is a valid guess
 //  Otherwise, it is invalid.  
 //  Feel free to use this sscanf statement, delete these comments, and modify the return statement as needed
     return 1;
