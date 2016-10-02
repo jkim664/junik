@@ -50,7 +50,7 @@ int main (int argc, char *argv[] )
 	}else{
 		printf("*****start_game rand() calls: FAIL\n");
         }
-	if (one == 8 && two == 4 && three == 8 && four == 8){
+	if (one == 7 && two == 4 && three == 7 && four == 7){
 		printf("*****start_game ouput: PASS\n");
 	}else{
 		printf("*****start_game output: FAIL\n");
@@ -71,8 +71,8 @@ int main (int argc, char *argv[] )
 	}else{ 
 		printf("*****make_guess return value: FAIL \n");
         }
-	ret = make_guess("8 4 8 8",&one,&two,&three,&four);
-	if (one==8 && two==4 && three==8 && four==8){
+	ret = make_guess("7 3 7 7",&one,&two,&three,&four);
+	if (one==7 && two==4 && three==7 && four==7){
 		printf("*****make_guess output value: PASS \n");
 	}else{
 		printf("*****make_guess output value: FAIL \n");	
@@ -81,12 +81,12 @@ int main (int argc, char *argv[] )
 	printf("*****If next line shows 4 perfect matches, then PASS\n");	
 	srand(12321);
 	start_game(&one,&two,&three,&four);
-	make_guess("8 4 8 8",&one,&two,&three,&four);
+	make_guess("7 3 7 7",&one,&two,&three,&four);
 	printf("*****Testing make_guess misplaced matches\n");
 	printf("*****If next line shows 0 perfect and 2 misplaced matches, then PASS\n");	
 	srand(12321);
 	start_game(&one,&two,&three,&four);
-	make_guess("1 8 4 1",&one,&two,&three,&four);
+	make_guess("0 7 3 0",&one,&two,&three,&four);
     }
     return 0;
 }
