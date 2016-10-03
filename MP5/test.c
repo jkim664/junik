@@ -72,7 +72,7 @@ int main (int argc, char *argv[] )
 		printf("*****make_guess return value: FAIL \n");
         }
 	ret = make_guess("7 3 7 7",&one,&two,&three,&four);
-	if (one==7 && two==4 && three==7 && four==7){
+	if (one==7 && two==3 && three==7 && four==7){
 		printf("*****make_guess output value: PASS \n");
 	}else{
 		printf("*****make_guess output value: FAIL \n");	
