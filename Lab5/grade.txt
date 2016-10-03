@@ -15,7 +15,7 @@ enter a seed number.
 5 5 5
 triple!
 
-Grade: 0
+Grade: 10
 ******
 Late submission: 0
 Functionality:
