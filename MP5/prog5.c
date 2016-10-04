@@ -11,11 +11,20 @@
  * in this file to help you get started.
  */
 
+//intro paragraph
+//this program takes 4 guesses from the user and compares to the randomly generated numbers, then 
+//figures out how many perfect matches and mistmatches there are. To do so, the program first figures out
+//all the perfect matches first. Then, the it figures out if there are any mismatches by checking 
+//if the other three elements have been paired either perfectly or imperfectly. If so, then they are matched.
+//at the end the program spits out how many perfect numbers and mistmatches have been made. 
+
+
+
 
 
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <stdbool.h>
 #include "prog5.h"
 
 
@@ -48,22 +57,22 @@ static int solution4;
 int
 set_seed (const char seed_str[])
 {
-//    Example of how to use sscanf to read a single integer and check for anything other than the integer
-//    "int seed" will contain the number typed by the user (if any) and the string "post" will contain anything after the integer
-//    The user should enter only an integer, and nothing else, so we will check that only "seed" is read. 
-//    We declare
-//    int seed;
-//    char post[2];
-//    The sscanf statement below reads the integer into seed. 
-//    sscanf (seed_str, "%d%1s", &seed, post)
-//    If there is no integer, seed will not be set. If something else is read after the integer, it will go into "post".
-//    The return value of sscanf indicates the number of items read succesfully.
-//    When the user has typed in only an integer, only 1 item should be read sucessfully. 
-//    Check that the return value is 1 to ensure the user enters only an integer. 
-//    Feel free to uncomment these statements, modify them, or delete these comments as necessary. 
-//    You may need to change the return statement below
-   
-    return 0;
+
+	int seed;
+	char post[2];
+	
+	if(sscanf(seed_str, "%d%1s", &seed, post) == 1)     //check if sscanf only read 1 value
+	{
+		srand(seed);					//set seed
+    		return 1;
+	}
+	
+	else
+		printf("set_seed: invalid seed\n");		// if read more than 2 items, wrong
+
+		
+	return 0;
+	
 }
 
 
@@ -85,8 +94,18 @@ set_seed (const char seed_str[])
 void
 start_game (int* one, int* two, int* three, int* four)
 {
-    //your code here
-    
+  
+	solution1 = rand() % 8;			//generate pseudo random numbers
+	solution2 = rand() % 8;
+	solution3 = rand() % 8;
+	solution4 = rand() % 8;	
+
+	guess_number = 1;			//initialize guess number 
+
+	*one = solution1;
+	*two = solution2;
+	*three = solution3;
+	*four = solution4;
 }
 
 /*
@@ -116,17 +135,159 @@ int
 make_guess (const char guess_str[], int* one, int* two, 
 	    int* three, int* four)
 {
-//  One thing you will need to read four integers from the string guess_str, using a process
-//  similar to set_seed
-//  The statement, given char post[2]; and four integers w,x,y,z,
-//  sscanf (guess_str, "%d%d%d%d%1s", &w, &x, &y, &z, post)
-//  will read four integers from guess_str into the integers and read anything else present into post
-//  The return value of sscanf indicates the number of items sucessfully read from the string.
-//  You should check that exactly four integers were sucessfully read.
-//  You should then check if the 4 integers are between 0-7. If so, it is a valid guess
-//  Otherwise, it is invalid.  
-//  Feel free to use this sscanf statement, delete these comments, and modify the return statement as needed
+	int w, x, y, z, perfmatch = 0, mismatch = 0;
+	char post[5];
+	bool pairone, pairtwo, pairthree, pairfour, pair11, pair22, pair33, pair44;
+	pair11 = false;
+	pair22 = false;
+	pair33 = false;
+	pair44 = false;
+	if(sscanf(guess_str, "%d%d%d%d%1s", &w, &x, &y, &z, post) != 4)		//check if sscanf read 4 items
+	{
+		printf("make_guess: invalid guess\n");
+		return 0;
+	}
+	
+	if((w < 0 ) || (w > 7))					//check if read characters are between 0-7
+	{
+		printf("make_guess: invalid guess\n");
+		return 0;
+	}
+
+		
+	else if((x < 0 ) || (x > 7))
+	{
+		printf("make_guess: invalid guess\n");
+		return 0;
+	}
+
+	else if((y < 0 ) || (y > 7))
+	{
+		printf("make_guess: invalid guess\n");
+		return 0;
+	}
+
+	else if((z < 0 ) || (z > 7))
+	{
+		printf("make_guess: invalid guess\n");
+		return 0;
+	}
+
+	if(w == solution1)					//check if inputs are perfect matches
+	{
+		perfmatch++;
+		pairone = true;
+	}
+	
+	if(x == solution2)
+	{	
+		perfmatch++;
+		pairtwo = true;
+	}
+	
+	if(y == solution3)	
+	{
+		perfmatch++;
+		pairthree = true;
+	}
+	
+	if(z == solution4)
+	{	
+		perfmatch++;
+		pairfour = true;
+	}
+	
+	if(pairone == false)				//check if there are any mismatches
+	{
+		if(pair22 == false && pairtwo == false && w == solution2) 
+		{
+			mismatch++;
+			pair22 = true;
+		}
+		else if(pair33 == false && pairthree == false && w == solution3)
+		{
+			mismatch++;
+			pair33 = true;
+		}
+
+		else if(pair44 == false && pairfour == false && w == solution4)
+		{
+			mismatch++;
+			pair44 = true;
+		}
+				
+	}
+
+	if(pairtwo == false)
+	{
+		if(pair11 == false && pairone == false && x == solution1)
+		{
+			mismatch++;
+			pair11 = true;
+		}
+		else if(pair33 == false && pairthree == false && x == solution3)
+		{
+			mismatch++;
+			pair33 = true;
+		}
+
+		else if(pair44 == false && pairfour == false && x == solution4)
+		{
+			mismatch++;
+			pair44 = true;
+		}
+				
+	}
+
+	if(pairthree == false)
+	{
+		if(pair11 == false && pairone == false && y == solution1)
+		{
+			mismatch++;
+			pair11 = true;
+		}
+		else if(pair22 == false && pairtwo == false && y == solution2)
+		{
+			mismatch++;
+			pair22 = true;
+		}
+
+		else if(pair44 == false && pairfour == false && y == solution4)
+		{
+			mismatch++;
+			pair44 = true;
+		}
+				
+	}
+
+	if(pairfour == false)
+	{
+		if(pair22 == false && pairtwo == false && z == solution2)
+		{
+			mismatch++;
+			pair22 = true;
+		}
+		else if(pair33 == false && pairthree == false && z == solution3)
+		{
+			mismatch++;
+			pair33 = true;
+		}
+
+		else if(pair11 == false && pairone == false && z == solution1)
+		{
+			mismatch++;
+			pair11 = true;
+		}
+				
+	}
+
+	printf("With guess %d, you got %d perfect matches and %d misplaced matches.\n", guess_number, perfmatch, mismatch);				//printing out the matches and guess number
+
+	guess_number++;		//increment guess number
+	
     return 1;
+
+	
 }
 
 
