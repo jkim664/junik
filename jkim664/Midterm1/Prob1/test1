@@ -1,0 +1,5 @@
+file sequence
+option stdin off
+continue
+123456*
+quit

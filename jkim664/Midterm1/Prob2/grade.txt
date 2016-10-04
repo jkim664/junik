@@ -1,0 +1,42 @@
+Compilation Results:
+********************
+STARTING PASS 1
+0 errors found in first pass.
+STARTING PASS 2
+0 errors found in second pass.
+
+Test Input 8: R6 should be 1 for full points
+R6=x0001
+
+Test Input 27: R6 should be 1 for full points
+R6=x0001
+
+Test Input 25: R6 should be 1 for full points
+R6=x0001
+
+Test Input 900: R6 should be 1 for full points
+R6=x0001
+
+Test Input 210: R6 should not be 1 for full points
+R6=x0001
+
+Test Input 41: R6 should not be 1 for full points
+R6=x0001
+
+Partial Score now:
+5
+STARTING PASS 1
+0 errors found in first pass.
+STARTING PASS 2
+0 errors found in second pass.
+Test Input 30/10: R3 should be 3 and R4 should be 0 for full points
+R3=x0003 R4=x0000
+Test Input 100/15: R3 should be 6 and R4 should be A for full points
+R3=x0006 R4=x000A
+Test Input 148/35: R3 should be 4 and R4 should be 8 for full points
+R3=x0004 R4=x0008
+Partial score for divide subroutine:
+15
+Grade:
+******
+Functionality: 20
