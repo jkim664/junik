@@ -50,7 +50,7 @@ int main (int argc, char *argv[] )
 	}else{
 		printf("*****start_game rand() calls: FAIL\n");
         }
-	if (one == 7 && two == 4 && three == 7 && four == 7){
+	if (one == 7 && two == 3 && three == 7 && four == 7){
 		printf("*****start_game ouput: PASS\n");
 	}else{
 		printf("*****start_game output: FAIL\n");
