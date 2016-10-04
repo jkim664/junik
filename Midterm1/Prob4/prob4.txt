@@ -1,0 +1,14 @@
+Record your answers here for Problem 4.
+Please limit each answer to no more than 3 sentences.
+
+
+1.In LC-3, what is the benefit of using a subroutine? (5 points)
+The purpose of using a subroutine is to call a function so that we do not have to keep writing the code, and we can store this 
+subroutine for future use. For example, a division code can be long and hard to implement every time. With a division subroutine, we can call this routine and perform division and then come back to user domain. 
+
+
+
+
+2.Explain what is a stack underflow. (5 points)
+Stack underflow happens when the top of the stack pointer goes below the start of the stack. Theoretically, this means that when the user tries to pop a value, when there is no value in the stack.  
+

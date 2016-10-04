@@ -1,0 +1,12 @@
+.ORIG x4000
+
+.FILL 1
+.FILL 1
+.FILL 1
+.FILL 2
+.FILL 2
+.FILL 3
+.FILL 0
+
+
+.END

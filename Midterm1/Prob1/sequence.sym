@@ -1,0 +1,15 @@
+// Symbol table
+// Scope level 0:
+//	Symbol Name       Page Address
+//	----------------  ------------
+//	LOOP              3008
+//	ADD1              301A
+//	NONE              3023
+//	NEW               3027
+//	END               302A
+//	stringInput       302D
+//	maxLength         3043
+//	length            3044
+//	previous          3045
+//	current           3046
+

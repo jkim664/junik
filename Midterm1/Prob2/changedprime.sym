@@ -1,0 +1,16 @@
+// Symbol table
+// Scope level 0:
+//	Symbol Name       Page Address
+//	----------------  ------------
+//	ECEGRADE          3004
+//	STEP2             300B
+//	STEP3             3010
+//	STEP4             3015
+//	STEP2S            301C
+//	STEP3S            301F
+//	STEP4S            3022
+//	DIVIDE            3025
+//	DLOOP             3029
+//	DIV1              302F
+//	DIV2              3032
+

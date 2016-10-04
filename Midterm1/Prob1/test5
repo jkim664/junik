@@ -1,0 +1,6 @@
+file phone_num
+option stdin off
+continue
+45*
+dump x5000
+quit
