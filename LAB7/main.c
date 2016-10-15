@@ -67,14 +67,27 @@ void verify_output( int* chosen , unsigned int *permutation ){
 */
 void backtracking( unsigned int index, int chosen[N], unsigned int permutation[N]  )    
 {
-
+	int i;
 	if ( index == N ){        
 		/* If a permutation is enumerated, use print_permutation to print it. Don't modify this */
 		print_permutation( permutation );
 	}
-	else{
-		// Your code goes here
+	else
+	{// Your code goes here
+	
+		for(i = 0; i < N; i++)
+		{
+			if(chosen[i] == 0)
+			{
+				permutation[index] = i + 1;
+				chosen[i] = 1;
+				backtracking(index + 1, chosen, permutation);
+				chosen[i] = 0;
+			}
+		}
 	}
+
+
 	
 }
 
