@@ -45,7 +45,7 @@ int main(int argc,char **argv)
   }
   else
   {
-    fprintf(stderr,"\nIncorrect.\n");
+    printf("\nIncorrect.\n");
   }
 
   //Free allocated memory
