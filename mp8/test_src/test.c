@@ -104,9 +104,7 @@ int main(){
 		ptr2++;
 	}
 	printf("test 6: pass - move_w moves the tiles around correctly\n");
-	
-	
-	
+		
 	
 	if( move_a(game_cpy1) == _move_a(game_cpy2))
 		printf("test 7: pass - move_a returns the correct value\n");
