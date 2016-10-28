@@ -1,5 +1,10 @@
 #include "game.h"
 
+//this code implements the game 2048. It utilizes the algorithm of sliding numbers
+//in the 1 dimensional arrays. This code slides up the values in the array according
+//to the direction input by the user, then combines the cells with the same values. 
+//the ultimate goal is to get to the number 2048, by sliding tiles in 4 ways and combining
+//the cells. 
 
 game * make_game(int rows, int cols)
 /*! Create an instance of a game structure with the given number of rows
@@ -15,6 +20,17 @@ game * make_game(int rows, int cols)
 
     //YOUR CODE STARTS HERE:  Initialize all other variables in game struct
 
+	int i, j;
+	for(i = 0; i < rows; i++)
+	{
+		for(j = 0; j < cols; j++)
+		{
+			mygame->cells[i * cols + j] = -1;	//make every cell -1
+		}
+	}
+	mygame->rows = rows;
+	mygame->cols = cols;
+	mygame->score = 0;
 
     return mygame;
 }
@@ -32,6 +48,18 @@ void remake_game(game ** _cur_game_ptr,int new_rows,int new_cols)
 	(*_cur_game_ptr)->cells = malloc(new_rows*new_cols*sizeof(cell));
 
 	 //YOUR CODE STARTS HERE:  Re-initialize all other variables in game struct
+
+	int i, j;
+	for(i = 0; i < new_rows; i++)
+	{
+		for(j = 0; j < new_cols; j ++)
+		{
+			(*_cur_game_ptr)->cells[i * new_cols + j] = -1;	//make every cell -1
+		}
+	}
+	(*_cur_game_ptr)->rows = new_rows;
+	(*_cur_game_ptr)->cols = new_cols;
+	(*_cur_game_ptr)->score = 0;
 
 	return;	
 }
@@ -55,7 +83,15 @@ cell * get_cell(game * cur_game, int row, int col)
 {
     //YOUR CODE STARTS HERE
 
-    return NULL;
+	if ((row < cur_game->rows) && (col < cur_game->cols))
+	{
+		int offset = row * cur_game->cols + col;	
+		int * ptr = cur_game->cells + offset;
+		return ptr;
+
+	}
+	else
+		return NULL;
 }
 
 int move_w(game * cur_game)
@@ -68,27 +104,210 @@ int move_w(game * cur_game)
 {
     //YOUR CODE STARTS HERE
 
-    return 1;
+
+	int i, j, target_row;
+	int rows = cur_game->rows;
+	int cols = cur_game->cols;
+	int changed = 0;
+	int last_combined_row;
+
+
+	for(j=0; j<cols; j++)
+	{	
+		target_row = 0;		
+		last_combined_row = -1;
+		for(i=1; i<rows; i++)
+		{
+			if(cur_game->cells[i*cols+j] != -1)
+			{							//find the most available row that is not empty
+				while(cur_game->cells[target_row*cols+j] != -1 && target_row < i)
+				{
+					target_row++;								//increment pointer if previous cell is empty
+				}
+				if(target_row<i)
+				{
+					cur_game->cells[target_row*cols+j] = cur_game->cells[i*cols+j];		//set the given directional next availible cell to the previous cell
+					cur_game->cells[i*cols+j] = -1;		
+					changed = 1;
+				}
+				if((target_row-1) != last_combined_row)
+				{
+					if(cur_game->cells[(target_row-1)*cols + j] == cur_game->cells[(target_row)*cols + j])
+					{
+						cur_game->cells[(target_row-1)*cols + j] = cur_game->cells[(target_row-1)*cols + j] + cur_game->cells[(target_row)*cols + j];
+						cur_game->score = cur_game->score + cur_game->cells[(target_row-1)*cols + j]; 						
+						cur_game->cells[(target_row)*cols+j] = -1;
+						last_combined_row = target_row-1;
+						changed = 1;
+						
+					}
+				}
+			}
+		}
+	}
+
+
+	if(changed != 1)
+		return 0;
+	else
+		return 1;
 };
 
 int move_s(game * cur_game) //slide down
 {
     //YOUR CODE STARTS HERE
+	int i, j, target_row;
+	int rows = cur_game->rows;
+	int cols = cur_game->cols;
+	int changed = 0;
+	int last_combined_row;
 
-    return 1;
+
+	for(j=0; j<cols; j++)
+	{
+		target_row = rows-1;
+		last_combined_row = rows;
+		for(i=rows - 2; i >= 0; i--)
+		{
+			if(cur_game->cells[i*cols+j] != -1)
+			{ 
+				while(cur_game->cells[target_row*cols+j] != -1 && target_row > i)
+				{
+					target_row--;
+				}
+				if(target_row>i)
+				{							//same thing, but starting from bottom
+					cur_game->cells[target_row*cols+j] = cur_game->cells[i*cols+j];		
+					cur_game->cells[i*cols+j] = -1;			
+					changed = 1;
+				}
+				if((target_row+1) != last_combined_row)
+				{
+					if(cur_game->cells[(target_row+1)*cols + j] == cur_game->cells[(target_row)*cols + j])
+					{
+						cur_game->cells[(target_row+1)*cols + j] = cur_game->cells[(target_row+1)*cols + j] + cur_game->cells[(target_row)*cols + j];
+						cur_game->score = cur_game->score + cur_game->cells[(target_row+1)*cols + j];						
+						cur_game->cells[(target_row)*cols+j] = -1;
+						last_combined_row = target_row+1;
+						changed = 1;
+						
+					}
+				}
+			}
+		}
+	}
+
+
+	if(changed != 1)
+		return 0;
+	else
+		return 1;
 };
 
 int move_a(game * cur_game) //slide left
 {
     //YOUR CODE STARTS HERE
 
-    return 1;
+	int i, j, target_col;
+	int rows = cur_game->rows;
+	int cols = cur_game->cols;
+	int changed = 0;
+	int last_combined_col;
+
+
+	for(i=0; i < rows; i++)
+	{
+		target_col = 0;
+		last_combined_col = -1;
+		for(j=1; j<cols; j++)
+		{
+			if(cur_game->cells[i*cols+j] != -1)
+			{ 							//same thing, but starting from the right
+				while(cur_game->cells[i*cols+target_col] != -1 && target_col < j)
+				{
+					target_col++;
+				}
+				if(target_col<j)
+				{
+					cur_game->cells[i*cols+target_col] = cur_game->cells[i*cols+j];
+					cur_game->cells[i*cols+j] = -1;
+					changed = 1;
+				}
+				if((target_col-1) != last_combined_col)
+				{
+					if(cur_game->cells[i*cols + target_col-1] == cur_game->cells[i*cols + target_col])
+					{
+						cur_game->cells[i*cols + target_col-1] = cur_game->cells[i*cols + target_col-1] + cur_game->cells[i*cols + target_col];
+						cur_game->score = cur_game->score + cur_game->cells[i*cols + target_col-1];						
+						cur_game->cells[i*cols+target_col] = -1;
+						last_combined_col = target_col-1;
+						changed = 1;
+						
+					}
+				}
+			}
+		}
+	}
+
+
+	if(changed != 1)
+		return 0;
+	else
+		return 1;
+
+
 };
 
 int move_d(game * cur_game){ //slide to the right
     //YOUR CODE STARTS HERE
 
-    return 1;
+
+	int i, j, target_col;
+	int rows = cur_game->rows;
+	int cols = cur_game->cols;
+	int changed = 0;
+	int last_combined_col;
+
+
+	for(i=0; i < rows; i++)
+	{
+		target_col = cols-1;
+		last_combined_col = cols;
+		for(j=cols-2; j>=0; j--)
+		{
+			if(cur_game->cells[i*cols+j] != -1)
+			{ 							//same thing, but starting from the left
+				while(cur_game->cells[i*cols+target_col] != -1 && target_col > j)
+				{
+					target_col--;
+				}
+				if(target_col>j)
+				{
+					cur_game->cells[i*cols+target_col] = cur_game->cells[i*cols+j];
+					cur_game->cells[i*cols+j] = -1;
+					changed = 1;
+				}
+				if((target_col+1) != last_combined_col)
+				{
+					if(cur_game->cells[i*cols + target_col+1] == cur_game->cells[i*cols + target_col])
+					{
+						cur_game->cells[i*cols + target_col+1] = cur_game->cells[i*cols + target_col+1] + cur_game->cells[i*cols + target_col];
+						cur_game->score = cur_game->score + cur_game->cells[i*cols + target_col+1];					
+						cur_game->cells[i*cols+target_col] = -1;
+						last_combined_col = target_col+1;
+						changed = 1;
+						
+					}
+				}
+			}
+		}
+	}
+
+
+	if(changed != 1)
+		return 0;
+	else
+		return 1;
 };
 
 int legal_move_check(game * cur_game)
@@ -97,9 +316,29 @@ int legal_move_check(game * cur_game)
 	Return 1 if there are possible legal moves, 0 if there are none.
  */
 {
-    //YOUR CODE STARTS HERE
 
-    return 1;
+	int a, b, cols, rows;
+	rows = cur_game->rows;
+	cols = cur_game->cols;
+	for(a = 0; a <rows;a++)
+	{
+		for(b= 0; b < cols; b++)
+		{
+			if(cur_game->cells[a*(cols)+b] == -1)						//check if any of the cells are empty
+				return 1;
+			else if (cur_game->cells[a*cols+b] == cur_game->cells[a*cols+b-1])		//check left
+					return 1;
+			else if(cur_game->cells[a*cols+b] == cur_game->cells[a*cols+b+1])		//check right
+					return 1;
+			else if(cur_game->cells[a*cols+b] == cur_game->cells[(a-1)*cols+b])		//check up
+					return 1;
+			else if(cur_game->cells[a*cols+b] == cur_game->cells[(a+1)*cols+b])		//check down
+					return 1;
+			
+		}
+	}
+	return 0;
+	
 }
 
 
@@ -297,3 +536,5 @@ int process_turn(const char input_char, game* cur_game) //returns 1 if legal mov
     }
     return 1;
 }
+
+
