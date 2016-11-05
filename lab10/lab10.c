@@ -20,10 +20,45 @@ void printList(node * Node) {
 /*Implement this function for Lab 10*/
 void reverse(node** head){
 
+	node * current = * head;
+	node * previous = NULL;
+	node * next;
+
+	while(current != NULL)
+	{
+		next = current->next;
+		current->next = previous;
+		previous = current;
+		current = next;
+	}
+	*head = previous;
+
+
+
 }
 
 /*Implement this function for Lab 10*/
 void removeDuplicates(node* head){
+
+	node * current = head;
+	node * temp;
+	while(current != NULL && current->next !=NULL)
+	{
+		if(current->data == current->next->data)
+		{
+			temp = current->next->next;
+			free(current->next);
+			current->next = temp;
+		}
+
+		else
+		{
+			current = current->next;
+		}
+
+	}
+
+
 
 }
 
