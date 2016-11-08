@@ -1,0 +1,32 @@
+Compilation Results:
+********************
+
+Test Results
+*****************
+Printing the original list:
+data =  1 2 3 3 3 4 5 6 6 6 7 8 9 9 9
+Printing the removeDuplicates list:
+data =  1 2 3 4 5 6 7 8 9
+Printing the reverse list:
+data =  9 8 7 6 5 4 3 2 1
+
+==29263== Memcheck, a memory error detector
+==29263== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==29263== Using Valgrind-3.10.0 and LibVEX; rerun with -h for copyright info
+==29263== Command: ./lab10
+==29263== 
+==29263== 
+==29263== HEAP SUMMARY:
+==29263==     in use at exit: 0 bytes in 0 blocks
+==29263==   total heap usage: 15 allocs, 15 frees, 240 bytes allocated
+==29263== 
+==29263== All heap blocks were freed -- no leaks are possible
+==29263== 
+==29263== For counts of detected and suppressed errors, rerun with: -v
+==29263== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 1 from 1)
+
+Grade: 10
+******
+Late submission: 0
+Functionality:
+Total: 
