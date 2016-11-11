@@ -1,0 +1,36 @@
+*****Testing mul_matrix*****
+Test 1
+C_matrix: 
+14 45 30 13 
+42 113 80 32 
+30 -23 57 57 
+66 55 109 67 
+Test 2
+C_matrix: 
+-16 29 25 
+-21 79 80 
+-26 129 135 
+-31 179 190 
+*****Testing reverse_column*****
+Test 1
+in_matrix before: 
+-1 3 4 
+-2 8 9 
+10 1 -1 
+8 7 3 
+out_matrix after: 
+4 3 -1 
+9 8 -2 
+-1 1 10 
+3 7 8 
+Test 2
+in_matrix before: 
+1 2 3 4 
+6 7 8 9 
+11 12 13 14 
+16 17 18 19 
+out_matrix after: 
+4 3 2 1 
+9 8 7 6 
+14 13 12 11 
+19 18 17 16 

@@ -1,0 +1,12 @@
+Record your answers here for Problem 4.
+Please limit each answer to no more than 3 sentences.
+
+
+1.Explain the difference between while loop and do-while loop. (5 points)
+
+The do while function allows us to multitask. It can perform another task while doing a while loop. 
+
+
+2.Explain when you can use binary search and its advantage over linear search. (5 points)
+
+Binary search allows us to ignore the other half of the section in which we know that does not have the solution to. For example, if we know that the value we want is in the upper half of the array, then we only need to search the upper half , and disregard the bottom half, unlike linear search where we would check every cell in the array, which would take much more time. 
