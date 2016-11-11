@@ -1,0 +1,8 @@
+// Symbol table
+// Scope level 0:
+//	Symbol Name       Page Address
+//	----------------  ------------
+//	INITARR           3008
+//	ARRAY_SUM         301E
+//	STACK             3059
+
