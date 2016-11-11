@@ -96,53 +96,75 @@ void reverse(sp_tuples_node** head)		//same thing as above, helper function from
 
 sp_tuples * load_tuples(char* input_file)
 {
-	sp_tuples * tuples = (sp_tuples*) malloc(sizeof(sp_tuples));	
+	
+	
+	sp_tuples* tuple = (sp_tuples*) malloc(sizeof(sp_tuples));	//initialize
+	tuple->nz = 0;
+	
 	sp_tuples_node* temp;
+	sp_tuples_node* cur = tuple->tuples_head;
 
-	FILE * f;			
+	
+	FILE * f;
+	f = fopen(input_file, "r");		//open file to read
 
-	f = fopen(input_file, "r");		//open file	
+	
+	fscanf(f, "%d%d", &tuple->m, &tuple->n);	//scan dimensions 
 
-	int row, col;	
-	fscanf(f, "%d%d", &row, &col);		//scan dimensions
-	tuples->m = row;	
-	tuples->n = col;
 	int i, j;
 	double k;
 
-	while(fscanf(f, "%d%d%lf", &i, &j, &k) == 3)		// as long as we keep reading 3 elements
-	{
-		if(k == 0)					//if value is 0, delete
-		set_tuples(tuples, row, col, 0);
 
-		else
+	while(fscanf(f, "%d%d%lf", &i, &j, &k) == 3)	//as long as we keep reading 3 elements from the file
+	{	
+		if(k == 0)		//if value is zero, delete it
 		{
-			sp_tuples_node * newnode = (sp_tuples_node*) malloc(sizeof(sp_tuples_node)); 		//assign 
-			newnode->row = i;
-			newnode->col = j;
-			newnode->value = k;
-	
-			if(tuples->tuples_head == NULL)		//if nothing is in the linked list
-			{	
-				tuples->tuples_head = newnode;
+			set_tuples(tuple, i, j, 0);
+		}
+		else	//set up the linked list 
+		{			
+			sp_tuples_node* node = (sp_tuples_node*) malloc(sizeof(sp_tuples_node));
+			node->row = i;
+			node->col = j;
+			node->value = k;
+			if(tuple->tuples_head == NULL)
+			{
+				tuple->tuples_head = node;
 			}
-
 			else
 			{
-				temp = tuples->tuples_head->next;		//assign
-				tuples->tuples_head->next = newnode;
-				newnode->next = temp;
-			} 				
-			tuples->nz++;		//increment nonzero terms
+				temp = tuple->tuples_head->next;
+				tuple->tuples_head->next = node;
+				node->next = temp;
+			}
+			tuple->nz++;		//increment nonzero 
 		}
 	}
-
-		
-	tuples->tuples_head = recurse(tuples->tuples_head);		//sort the list
 	
+	
+	if(tuple->tuples_head == NULL) 	//nothing in the matrix 
+	{
+		return NULL;
+	}
+
+	reverse(&tuple->tuples_head->next);		//reverse the matrix to put the matrix in correct order, from least to greatest 
+
+	
+	tuple->tuples_head = recurse(tuple->tuples_head);	//sort the linked list 
+
+	
+	removeDuplicates(tuple->tuples_head);		//remove duplicates 
 
 
-    return tuples;
+	int a = 1;					//have to calculate number of nonzero values 
+	cur = tuple->tuples_head;
+	while(cur != NULL && cur->next != NULL && cur->value != 0){
+		a++;
+		cur = cur->next;
+	}
+	tuple->nz = a;
+	
+    return tuple;
 }
 
 
@@ -174,67 +196,71 @@ double gv_tuples(sp_tuples * mat_t,int row,int col)
 void set_tuples(sp_tuples * mat_t, int row, int col, double value)
 {
 
-	sp_tuples_node * cur;
-	sp_tuples_node * prev;
-	sp_tuples_node * temp;
+	sp_tuples_node* cur = mat_t->tuples_head;
+	sp_tuples_node* prev = mat_t->tuples_head;
+	sp_tuples_node* temp;
 
-	cur = mat_t->tuples_head;
-	prev = mat_t->tuples_head;
-	if(value == 0)		//if value is 0, delete
+	if(value == 0)	//if element is 0, delete
 	{
-		while(cur != NULL)		
+		while(cur != NULL)
 		{
-			if(cur->col == col && cur->row == row)
-			{			
-				temp = cur->next;	
+			if(cur->row == row && cur->col == col)
+			{
+				temp = cur->next;
 				free(cur);
-				prev->next = temp; 
+				prev->next = temp;
+				return;
 			}
-
 			prev = cur;
-			cur = cur->next;	
-		
+			cur = cur->next;
 		}
 	}
 
-
 	else
 	{
-		if(mat_t->tuples_head == NULL) //if there is no node, got to add one
+		
+		if(mat_t->tuples_head == NULL)		//if there is no node, create one
 		{
-			sp_tuples_node * newnode = (sp_tuples_node*) malloc(sizeof(sp_tuples_node));
-			newnode->row = row;
-			newnode->col = col;
-			newnode->value = value;
-			mat_t->tuples_head = newnode; 
-			return;	
+			sp_tuples_node* node = (sp_tuples_node*) malloc(sizeof(sp_tuples_node));
+			node->row = row;
+			node->col = col;
+			node->value = value;
+			mat_t->tuples_head = node;
+			return;
 		}
+	
+		int change = 0;
+		cur = mat_t->tuples_head;
+		
 
-
-		int change = 0;		//a flag to see if index exists
-		while(cur != NULL)
-		{			
-			if(cur->col == col && cur->row == row)
+		while(cur != NULL)		
+		{
+			
+			if(cur->row == row && cur->col == col)		//assign value into indicated row col cell
 			{
-				cur->value = value; 
-				change = 1;
+				cur->value = value;
+				change = 1;	
 			}
-				cur = cur->next;
+			cur = cur->next;
 		}
-
-		if(change == 0)		//if no index, create index and assign value
+		
+		if(change == 0)		//if index does not exist, then create one
 		{
-			sp_tuples_node * newnode = (sp_tuples_node*) malloc(sizeof(sp_tuples_node));
+			
+			sp_tuples_node* newnode = (sp_tuples_node*) malloc(sizeof(sp_tuples_node));
 			newnode->row = row;
 			newnode->col = col;
 			newnode->value = value;
 			temp = mat_t->tuples_head->next;
 			newnode->next = temp;
-			mat_t->tuples_head->next = newnode; 
-		
-			mat_t->tuples_head = recurse(mat_t->tuples_head); //sort it again just in case the addition of a new node disrupts the sorted list
+			mat_t->tuples_head->next = newnode;
+
+			
+			mat_t->tuples_head = recurse(mat_t->tuples_head);	//sort again since the addition of linked list might have disrupted the order
 		}
-	}	
+	}
+
+    return;
 }
 
 
