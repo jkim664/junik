@@ -1,0 +1,12 @@
+Compilation Results:
+********************
+
+Test Results
+*****************
+Select two numbers (10 , 5 , 11 , 3 , 8 , 6 , 9 , 15 , 13): lca of 6 and 9 is 8
+
+Grade: 10
+******
+Late submission: 0
+Functionality:
+Total: 
