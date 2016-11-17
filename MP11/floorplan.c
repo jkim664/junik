@@ -52,25 +52,53 @@ void floorplan(const char file[], const char outfile[]) {
 // FUNCTIONS/PROCEDURES YOU HAVE TO FINISH.                                                      //
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+
+
+//paragraph
+//this code uses multiple functions to create and remodel floorplans to optimize. 
+//it uses functions such as swapping topology, rotate, recut, and swap module to create
+//floorplans. It also utilizes functions such as is_leaf_node to see if each module 
+//has certain characteristics that we are looking for. 
+
+
 // Function: is_leaf_node
 // Return 1 if the given slicing tree node is a leaf node, and 0 otherwise.
 int is_leaf_node(node_t* ptr) {
   // TODO: (remember to modify the return value appropriately)
-  return 0;
+
+	if(ptr->left == NULL && ptr->right == NULL)	//if both left and right child nodes are null, it is leaf node 
+	return 1;
+
+	else
+	return 0;
 }
 
 // Function: is_internal_node
 // Return 1 if the given slicing tree node is an internal node, and 0 otherwise.
 int is_internal_node(node_t* ptr) {
   // TODO: (remember to modify the return value appropriately)
-  return 0;
+ 
+	if(ptr->left != NULL && ptr->right != NULL)		//if it has child nodes, then it is interal 
+	return 1;
+
+	else
+	return 0;
 }
 
 // Function: is_in_subtree
 // Return 1 if the given subtree rooted at node 'b' resides in the subtree rooted at node 'a'.
 int is_in_subtree(node_t* a, node_t* b) {
   // TODO: (remember to modify the return value appropriately)
-  return 0;
+
+	if(b == a)			//base case, if node b is in the same place as node a
+	return 1;
+	
+	else if(b == NULL)		//if node b reaches the top, then they are not in the same subtree
+	return 0;
+	
+	else
+	return is_in_subtree(a, b->parent);		//recurse by checkiing b's parent to go up the tree
 }
 
 // Procedure: rotate
@@ -78,6 +106,15 @@ int is_in_subtree(node_t* a, node_t* b) {
 // and the width of the modules are swapped.
 void rotate(node_t* ptr) {
   // TODO: Rotate the module, swapping the width and height.
+
+	int temp;			//simple swap of width and height 
+	temp = ptr->module->w;
+	ptr->module->w = ptr->module->h;
+	ptr->module->h = temp;  
+	return;
+
+
+
 }
 
 // Procedure: recut
@@ -89,7 +126,14 @@ void recut(node_t* ptr) {
   assert(ptr->module == NULL && ptr->cutline != UNDEFINED_CUTLINE);
 
   // TODO: 
-  return;
+	
+	if(ptr->cutline == V)			//simple reinitializing of H and V
+	ptr->cutline = H;
+	
+	else 
+	ptr->cutline = V;
+	
+	return;
 }
 
 // Procedure: swap_module
@@ -100,6 +144,13 @@ void swap_module(node_t* a, node_t* b) {
   assert(b->module != NULL && b->cutline == UNDEFINED_CUTLINE); //if undefined cutline, then the modules are numbers
 
   // TODO:
+
+	module_t* temp;			//simple swap code for module of a and b 
+	temp = a->module;
+	a->module = b->module;
+	b->module = temp;
+	return;
+
 }
 
 // Procedure: swap_topology
@@ -114,6 +165,26 @@ void swap_topology(node_t* a, node_t* b) {
   assert(a->parent != NULL && b->parent != NULL);
  
   // TODO:
+
+	NODE* tempP = a->parent;			
+	
+	if(a == a->parent->right)			//first checks if nodes are on the left or right
+	a->parent->right = b;				//then, swap accordingly
+	
+	else
+	a->parent->left = b;
+
+	if(b == b->parent->right)
+	b->parent->right = a;
+	
+	else
+	b->parent->left = a;
+		
+	a->parent = b->parent;				//then swap parents 
+	b->parent = tempP;
+
+
+
 }
 
 // Procedure: get_expression
@@ -149,6 +220,22 @@ void postfix_traversal(node_t* ptr, int* nth, expression_unit_t* expression) {
   if(ptr == NULL) return;
 
   // TODO:
+
+		postfix_traversal(ptr->left, nth, expression);			//go through left
+		postfix_traversal(ptr->right, nth, expression);			//then right
+		
+		if(ptr->cutline == UNDEFINED_CUTLINE)				//if it's a module
+		expression[*nth].module = ptr->module;				//store the module into the expression
+		
+		else
+		expression[*nth].cutline = ptr->cutline;			//if not, store H or V accordingly
+
+		*nth = *nth + 1;						//increment nth 
+	
+		return;
+		
+	
+	
 }
 
 // Procedure: init_slicing_tree
@@ -180,10 +267,41 @@ void postfix_traversal(node_t* ptr, int* nth, expression_unit_t* expression) {
 //
 node_t* init_slicing_tree(node_t* par, int n) {
   
-  assert(n >= 0 && n < num_modules);
+ assert(n >= 0 && n < num_modules);
 
-  // TODO: (remember to remove the following return statement)
-  return NULL;
+  // TODO:
+
+	node_t* parentchild = (node_t*) malloc(sizeof(node_t));		
+	node_t* rightnode = (node_t*) malloc(sizeof(node_t));
+	node_t* leftnode;
+
+
+	if(n == num_modules - 1)			
+	{
+		parentchild->left = NULL;			
+		parentchild->right = NULL;
+		parentchild->cutline = UNDEFINED_CUTLINE;
+		parentchild->module = (module_t*) modules + n;
+		return parentchild;					//initialze then return if n = num_modules - 1
+	}
+	
+	rightnode->module = (module_t*) modules + n;			//else, connect rightnode and leftnode with the parentchild
+	rightnode->cutline = UNDEFINED_CUTLINE;
+	rightnode->right = NULL;
+	rightnode->left = NULL;
+	rightnode->parent = parentchild;
+
+	parentchild->right = rightnode;
+	parentchild->module = NULL;
+	parentchild->cutline = V;
+	leftnode = init_slicing_tree(parentchild->left, n + 1); 
+	parentchild->left = leftnode;
+	leftnode->parent = parentchild;
+	return parentchild; 
+
+
+
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
