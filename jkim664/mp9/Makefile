@@ -1,14 +1,14 @@
 CC=gcc
-CFLAGS=-g -Wall -Wextra
+CFLAGS=-Wall -Wextra
 
-mp9: main.o maze.o solutionChecker.o
-	$(CC) $(CFLAGS) main.o maze.o solutionChecker.o -o mp9
+grader: grader.o maze.o
+	$(CC) $(CFLAGS) grader.o maze.o -o grader
 
-main.o: main.c
-	$(CC) $(CFLAGS) -c main.c
+grader.o: grader.c
+	$(CC) $(CFLAGS) -c grader.c
 
 maze.o: maze.c
 	$(CC) $(CFLAGS) -c maze.c
 
 clean:
-	rm -f main.o maze.o mp9
+	rm -f maze.o grader.o grader

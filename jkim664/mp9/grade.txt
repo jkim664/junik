@@ -1,0 +1,188 @@
+Compilation Results:
+********************
+
+Testing createMaze (20 pts)
+    Correct width and height: +2
+createMaze score: 2
+
+Testing destroyMaze (10 pts)
+destroyMaze score: 10 points if no memory leaks/errors otherwise 0
+==1080== Memcheck, a memory error detector
+==1080== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==1080== Using Valgrind-3.10.0 and LibVEX; rerun with -h for copyright info
+==1080== Command: ./grader 1
+==1080== 
+==1080== 
+==1080== HEAP SUMMARY:
+==1080==     in use at exit: 2,601 bytes in 51 blocks
+==1080==   total heap usage: 54 allocs, 3 frees, 3,609 bytes allocated
+==1080== 
+==1080== LEAK SUMMARY:
+==1080==    definitely lost: 2,601 bytes in 51 blocks
+==1080==    indirectly lost: 0 bytes in 0 blocks
+==1080==      possibly lost: 0 bytes in 0 blocks
+==1080==    still reachable: 0 bytes in 0 blocks
+==1080==         suppressed: 0 bytes in 0 blocks
+==1080== Rerun with --leak-check=full to see details of leaked memory
+==1080== 
+==1080== For counts of detected and suppressed errors, rerun with: -v
+==1080== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 1 from 1)
+
+Testing printMaze (10 pts)
+PrintMazeScore: 0
+
+Testing solveMazeManhattanDFS (20 pts)
+Testing with maze from test1.txt (Simple maze)
+Correct return value: +1
+%%%%%
+%E..%
+%%%.%
+%~..%
+%%%%%
+solveMazeManhattan test1 score: 1
+
+Testing with maze from test2.txt (Complex maze)
+Correct return value: +1
+Solution to maze is valid: +3
+If solution searches paths following Manhattan heuristic: +8 to total score at end
+solveMazeManhattan test2 partial score: 4
+solveMazeManhattan test2 total score: 12 
+
+Testing with maze from test3.txt (Unsolvable maze)
+Correct return value: +1
+All empty cells visisted during search: +3
+solveMazeManhattan test3 score: 4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Testing with maze from test12 
+Correct return value
+%  %
+ %  
+E% %
+.   
+solveMazeManhattan test test12 score: 0
+
+Testing with maze from test13 
+Correct return value
+%  %
+ %  
+.% %
+E   
+solveMazeManhattan test test13 score: 0
+
+
+
+
+
+
+
+Testing with maze from test20 
+Correct return value
+Solution to maze is valid
+% E%
+ %. 
+ %S%
+    
+solveMazeManhattan test test20 score: 1
+
+
+
+
+
+
+
+
+
+
+
+Testing with maze from test31 
+Correct return value
+%  %
+ %E.
+ % %
+    
+solveMazeManhattan test test31 score: 0
+
+
+
+Testing with maze from test34 
+Correct return value
+% E%
+ %. 
+ % %
+    
+solveMazeManhattan test test34 score: 0
+
+
+
+
+
+
+
+
+
+
+
+
+Testing with maze from test46 
+Correct return value
+Solution to maze is valid
+% E%
+ %.S
+ % %
+    
+solveMazeManhattan test test46 score: 1
+
+
+
+
+
+
+
+
+
+
+
+Testing with maze from test57 
+Correct return value
+Solution to maze is valid
+%  %
+S%  
+.% %
+E   
+solveMazeManhattan test test57 score: 1
+
+
+
+Score for 60 tests: 2
+jkim664:Error: memory error: out of bound pointer
+jkim664-File: fa16-ece220/jkim664/maze.c
+jkim664-Line: 121
+jkim664:Error: memory error: out of bound pointer
+jkim664-File: fa16-ece220/jkim664/maze.c
+jkim664-Line: 121
+jkim664:Error: memory error: out of bound pointer
+jkim664-File: fa16-ece220/jkim664/maze.c
+jkim664-Line: 121
+jkim664:Error: memory error: out of bound pointer
+jkim664-File: fa16-ece220/jkim664/maze.c
+jkim664-Line: 121
+Grade:
+******
+Late submission: 0
+Functionality: 16
+Comments and Style: 5
+Intro paragraph: 5
+Total: 26
