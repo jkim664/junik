@@ -1,0 +1,17 @@
+Compilation Results:
+********************
+PolarNumber.cpp:1:27: fatal error: ComplexNumber.h: No such file or directory
+ #include "ComplexNumber.h"
+                           ^
+compilation terminated.
+
+Printing diff. Empty = Full points. Each line is worth 6 points
+diff: their_output.txt: No such file or directory
+
+Grade:
+******
+Late submission: 0
+Functionality: 0
+Comments and Style: 5
+Intro paragraph: 5
+Total: 100
