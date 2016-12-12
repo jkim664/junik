@@ -1,0 +1,43 @@
+Compilation Results:
+********************
+
+./floorplanner circuit3.txt circuit3.png
+
+********************************** MP11 **********************************
+Initial slicing tree: Root=0x20930f0, num_nodes=13, num_modules=7
+Initial expression: 65V4V3V2V1V0V
+Initial area: 1.95017e+06
+Perform optimization...
+Module 0 is placed at (0, 0) with height=382 and width=979
+Module 1 is placed at (482, 727) with height=805 and width=498
+Module 2 is placed at (0, 727) with height=780 and width=368
+Module 3 is placed at (336, 382) with height=345 and width=364
+Module 4 is placed at (368, 727) with height=430 and width=114
+Module 5 is placed at (0, 382) with height=310 and width=336
+Module 6 is placed at (700, 382) with height=267 and width=236
+Packing area = 1.50136e+06 (has overlapped? 0 (1:yes, 0:no))
+Draw floorplan to circuit3.png
+********************************** END ***********************************
+
+****************************** VERIFICATION ******************************
+Circuit: 7 golden_modules, slicing tree size = 7 leaves and 6 internals
+(1) Function  'init_slicing_tree': correct!   +25
+(2) Function  'is_leaf'          : correct!   +5
+(3) Function  'is_internal'      : correct!   +5
+(4) Function  'is_in_subtree'    : correct!   +10
+(5) Procedure 'rotate'           : correct!   +5
+(6) Procedure 'recut'            : correct!   +5
+(7) Procedure 'swap_module'      : correct!   +5
+(8) Procedure 'swap_topology'    : correct!   +10
+(9) Procedure 'get_expression'   : correct!   +20
+Your final score for this MP     : 90
+**************************** END VERIFICATION ****************************
+
+
+Grade:
+******
+Late submission: 0
+Functionality: 90
+Comments and Style: 5
+Intro paragraph: 5
+Total: 100
